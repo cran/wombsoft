@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <math.h>
 #include "R.h"  // ATTENTION pour que ça marche, n'inclue que RS.h pour les error et les free !!!!!! le reste : abandon !!!
+#include "womb_mv.h"
+#include "binomial_mv.h"
 #include "wombling.h"
-#include "binomial.h"
 
 // une fonction pour calculer la fonction systémique d'un allèle, et une autre qui fait la boucle sur les allèles
 
 
-void systemic_allelic_codom(double * syst, double * dir, double *coords,double *data,double *h,int *allele_nb,int *allele_col,double *grid_x,double *grid_y,int *nb_x,int *nb_y,int *nr_ind, double *cvxhull)
+void systemic_allelic_codom_rg(double * syst, double * dir, double *coords, double * rg, double *data,double *h,int *allele_nb,int *allele_col,double *grid_x,double *grid_y,int *nb_x,int *nb_y,int *nr_ind, double *cvxhull)
   {
   int i,j,k;
   int l=3;
@@ -22,6 +23,7 @@ void systemic_allelic_codom(double * syst, double * dir, double *coords,double *
   double x;
   double y;
   int v=2*(*nr_ind);
+//  XX=calc_X_ps(coords,nr_ind);
   for (i=0; i<*nb_x;i++)
     {
     for (j=0;j<*nb_y;j++)
@@ -34,9 +36,9 @@ void systemic_allelic_codom(double * syst, double * dir, double *coords,double *
         {
         x=*(grid_x+i);
         y=*(grid_y+j);
-        XX=calc_X(coords,nr_ind,&x,&y);
-        W=calc_W(coords,nr_ind,&x,&y,h);
-        if ((*XX==-1)||(*W==-1))
+        W=calc_W_rg(rg,nr_ind,i,j,h,*nb_x);
+	XX=calc_X(coords,nr_ind,&x,&y);
+         if ((*XX==-1)||(*W==-1))
           {*(syst+i+j*(*nb_x))=-1;}
         else
           {
@@ -96,23 +98,8 @@ void systemic_allelic_codom(double * syst, double * dir, double *coords,double *
 
 
 
-/*void binomial_codominant(double *coords,double *data,double *h,int *nb_alleles,int * nb_alleles_col, double *grid_x,double *grid_y,int *nb_x,int *nb_y,int *nr_ind, double *cvxhull)
-  {
-  double * syst;
-  malloc machin truc ....
-  int k,i,j,allele_nb;
-  for (j=0;j<(*data)/2;j++)
-   {
-   for (k=0;k<*(nb_alleles_col+j) ;k++)
-    {
-    syst=systemic_allelic_codom(syst,dir,coords,double *data,double *h,int *allele_nb,int *allele_col,double *grid_x,double *grid_y,int *nb_x,int *nb_y,int *nr_ind, double *cvxhull
-    }  
-   }
-  };
-
-  */ 
   
-void systemic_allelic_dom(double * syst_p, double * dir_p, double * syst_a, double * dir_a, double *coords, double *data, double *h, int *allele_col, double *grid_x, double *grid_y, int *nb_x, int *nb_y, int *nr_ind, double *cvxhull)
+void systemic_allelic_dom_rg(double * syst_p, double * dir_p, double * syst_a, double * dir_a, double *coords, double * rg, double *data, double *h, int *allele_col, double *grid_x, double *grid_y, int *nb_x, int *nb_y, int *nr_ind, double *cvxhull)
   {                     // on va gérer colonne par colonne, les deux allèles à chaque fois !  la colonne concernée est "allele_col".
   int i,j,k;            // syst, dir _p : allèle présence. syst, dir _a : allèle absence.
   int l=3;
@@ -125,6 +112,7 @@ void systemic_allelic_dom(double * syst_p, double * dir_p, double * syst_a, doub
   double beta_xa,beta_ya,beta_xp,beta_yp;
   double x;
   double y;
+//  XX=calc_X_ps(coords,nr_ind);
   for (i=0; i<*nb_x;i++)
     {
     for (j=0;j<*nb_y;j++)
@@ -142,7 +130,7 @@ void systemic_allelic_dom(double * syst_p, double * dir_p, double * syst_a, doub
         x=*(grid_x+i);
         y=*(grid_y+j);
         XX=calc_X(coords,nr_ind,&x,&y);
-        W=calc_W(coords,nr_ind,&x,&y,h);
+        W=calc_W_rg(rg,nr_ind,i,j,h,*nb_x);
         if ((*XX==-1)||(*W==-1))
           {*(syst_a+i+j*(*nb_x))=-1;}
         else

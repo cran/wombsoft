@@ -3,6 +3,7 @@
 
 double * calc_W(double *coord, int *nb_indiv,double *x,double *y,double *h);
 double * calc_X(double *coord, int *nb_indiv, double *x, double *y);
+double * calc_X_ps(double *coord, int *nb_indiv);
 double * produit(double *a, int *nrow_a, int *ncol_a, double *b, int *nrow_b, int *ncol_b);
 double * produit_restr(double * a, int * nrow_a, int * ncol_a, double * b, int * nrow_b, int * ncol_b);
 double * produit_diag_transp(double *x, int * nrow_x, int * ncol_x, double * diag) ;

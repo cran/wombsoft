@@ -69,6 +69,31 @@ double * calc_X(double *coord, int *nb_indiv, double *x, double *y)
     }
 	}
 
+
+double * calc_X_ps(double *coord, int *nb_indiv)
+	{
+	int i;
+	double *X;
+	X=(double *)malloc(*nb_indiv*3*sizeof(double));
+	if (X!=NULL)
+	 {
+    for (i=0;i<*nb_indiv; i++)
+		  {
+  		*(X+i)=1;
+	   	*(X+i+*nb_indiv)=*(coord+i);
+	 	  *(X+i+2*(*nb_indiv))=*(coord+i+*nb_indiv);
+		  }
+  return(X);
+   }
+  if (X==NULL)
+    {
+    double * erreur;
+    *erreur=-1;
+    return(erreur);
+    }
+	}
+
+
 //---------------------------------------------------------------------------------------------------------------------------------------------
 
 double * produit(double *a, int *nrow_a, int *ncol_a, double *b, int *nrow_b, int *ncol_b)

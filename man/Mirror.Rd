@@ -9,8 +9,8 @@
 MirrorCodominant(data,m) 
 MirrorContingency(data,m)}
 \arguments{
-	\item{data}{the list of the six items provided by the Data functions.}
-	\item{m}{width of the domain where individuals will be duplicated.}
+\item{data}{the list of the six items provided by the Data functions.}
+\item{m}{width of the domain where individuals will be duplicated.}
   }
 \value{a new data list, with the last number corresponding to the number of distinct original individuals (the new individuals provided by the mirror effect are not counted).}
 \seealso{\code{\link{Data}} for the computing of the data list.}
